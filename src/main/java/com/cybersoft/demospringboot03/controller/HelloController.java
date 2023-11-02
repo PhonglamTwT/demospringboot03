@@ -1,8 +1,10 @@
 package com.cybersoft.demospringboot03.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.cybersoft.demospringboot03.payload.request.LoginRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Controller : Chi xai khi duong dan dang quy dinh tra ra la file html
@@ -13,13 +15,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/hello")
 public class HelloController {
+
+    //Tham so truyen tren trinh duyet: @RequestParam
+    //Tham so truyen ngam:  @RequestParam
+    //Tham so dong vai tro nhu la 1 duong dan : @PathVariable
+    //Tham so ngam la doi tuong: @RequestBody
+
     @GetMapping("")
-    public String hello(){
-        return "Hello Spring boot";
+    public String hello(@RequestParam String hoten, @RequestParam int tuoi){
+        return "Hello Spring boot " + hoten + " " +tuoi;
     }
 
-    @GetMapping("/cybersoft")
-    public String helloCybersoft(){
-        return "Hello Spring Cybersoft";
+    @PostMapping("/cybersoft")
+    public String helloCybersoft(@RequestBody LoginRequest loginRequest) {
+        return "Hello Spring Cybersoft " + loginRequest.getUsername() + " - "+loginRequest.getPassword();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable int id){
+        return new ResponseEntity<>("Update "+id, HttpStatus.OK);
     }
 }
