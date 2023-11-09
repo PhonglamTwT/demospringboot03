@@ -1,10 +1,16 @@
 package com.cybersoft.demospringboot03.controller;
 
+import com.cybersoft.demospringboot03.entity.Student;
+import com.cybersoft.demospringboot03.entity.UsersEntity;
 import com.cybersoft.demospringboot03.payload.request.LoginRequest;
+import com.cybersoft.demospringboot03.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @Controller : Chi xai khi duong dan dang quy dinh tra ra la file html
@@ -21,9 +27,16 @@ public class HelloController {
     //Tham so dong vai tro nhu la 1 duong dan : @PathVariable
     //Tham so ngam la doi tuong: @RequestBody
 
+    @Autowired
+    private Student student;
+
+    @Autowired
+    private UserRepository userRepository;
     @GetMapping("")
-    public String hello(@RequestParam String hoten, @RequestParam int tuoi){
-        return "Hello Spring boot " + hoten + " " +tuoi;
+    public ResponseEntity<?> hello(@RequestParam String hoten, @RequestParam int tuoi){
+        List<UsersEntity> listUser = userRepository.findAll();
+//        return "Hello Spring boot " + hoten + " " +tuoi +" - IOC "+student.getName();
+        return new ResponseEntity<>(listUser, HttpStatus.OK);
     }
 
     @PostMapping("/cybersoft")
